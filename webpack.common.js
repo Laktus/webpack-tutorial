@@ -2,14 +2,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require("path");
 
 module.exports = {
-    mode: "development",
-    entry: "./src/index.js",
-    output: {
-        filename: "main.[contenthash].js", //Cache Busting
-        path: path.resolve(__dirname, "dist")
+    entry: {
+        main: "./src/index.js",
+        vendor: "./src/vendor.js"
     },
     plugins: [new HtmlWebpackPlugin({
-        template: "./src/template.html"
+        template: "./src/template.html",
     })],
     module: {
         rules: [
@@ -20,6 +18,14 @@ module.exports = {
                     "css-loader", //2. Turns css into commonjs
                     "sass-loader" //1. Turns sass into css
                 ] 
+            },
+            {
+                test: /\.html$/,
+                use: ["html-loader"]
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
             },
         ],
     },
